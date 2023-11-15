@@ -10,9 +10,9 @@ console.log(surname);
 console.log(typeof myName);
 
 let person = {
-    sender : "Rama",
-    message : "How are you?",
-    receiver : "Shyama"
+    sender: "Rama",
+    message: "How are you?",
+    receiver: "Shyama"
 };
 
 console.log(person);
@@ -26,7 +26,7 @@ console.log(list);
 console.log(list[0]);
 console.log(list[1]);
 
-function greet(name){
+function greet(name) {
     console.log("Hello " + name);
 }
 
