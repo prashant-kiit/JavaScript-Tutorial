@@ -18,7 +18,9 @@ public class test {
     
     // lambda expression
     ref = () -> {return a;};
-    
+
+    // Integer b = () -> {return a;}; // gives error: The target type of this expression must be a functional interface
+
     System.out.println("Value of Pi = " + ref.getPiValue());
     } 
 }
