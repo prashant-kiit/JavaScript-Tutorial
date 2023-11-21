@@ -1,0 +1,25 @@
+// Main is window object in chrome and global object in node 
+// environment : Main
+let Main = {
+    // environment : main()
+    main: function() {
+        // let self = this;
+        console.log(this); 
+        let variable = 'Hello World!'; // -> main()
+        // enviroment: fun() 
+        let fun = function() {
+            // let variable = 'World, Hello!'; // -> fun()
+            console.log(variable);
+            console.log(this); // js bug: should give Main but gives Window
+        }
+        fun();
+    },
+    // enviroment: some() 
+    some: function() {
+        console.log(this);
+    }
+}
+
+// compiler
+Main.main();
+Main.some();

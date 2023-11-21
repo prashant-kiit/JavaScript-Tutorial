@@ -23,15 +23,19 @@ console.log(person.sender);
 console.log(person['message']);
 
 // array
-let list = ["Ravana", 67];
+let list = ["Ravana", 67, ()=>{console.log('Hello');}];
 list[5] = "Kansa";
 console.log(list);
 console.log(list[0]);
 console.log(list[1]);
+list[2]();
 
 // function
 function greet(name) {
     console.log("Hello " + name);
+    console.log(arguments);
+    console.log(arguments[0]);
+
 }
 greet("Balarama");
 greet("Bheem");
@@ -83,3 +87,9 @@ function fun2() {
     some2();
 }
 fun2();
+
+// operators
+let some = null;
+console.log('true' - 1);
+if ('some') {console.log('something')}
+3 + 4;
