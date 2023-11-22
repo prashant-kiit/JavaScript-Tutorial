@@ -18,3 +18,4 @@ console.log(emp3);
 emp1.getSalaryHike();
 emp2.getSalaryHike();
 emp3.getSalaryHike();
+console.log(emp3.constructor);

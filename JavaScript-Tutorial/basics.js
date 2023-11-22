@@ -39,7 +39,7 @@ function greet(name) {
 }
 greet("Balarama");
 greet("Bheem");
-greet(typeof greet);
+console.log(typeof greet);
 
 // devtools for analyzing prototypes/parent object
 console.log(nickName.constructor);
@@ -79,12 +79,12 @@ let closure = fun3();
 closure(); // some3()
 
 // closure and global
-let e = 2;
+let vari = 2;
 function fun2() {
-    function some2() {
-        console.log(e);
+    function some4() {
+        console.log(vari);
     }
-    some2();
+    some4();
 }
 fun2();
 
@@ -93,3 +93,8 @@ let some = null;
 console.log('true' - 1);
 if ('some') {console.log('something')}
 3 + 4;
+
+// contructor
+console.log(greet.constructor);
+console.log(person.constructor);
+console.log(surname.constructor);
