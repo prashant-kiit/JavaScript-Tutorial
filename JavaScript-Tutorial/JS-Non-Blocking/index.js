@@ -47,7 +47,15 @@ const callMe4 = async () => {
   fun2();
 };
 
+const callMe5 = async () => {
+  console.log(document.getElementById("title").textContent);
+  console.log(document.getElementById("title").innerText);
+  console.log(document.getElementById("title").innerHTML);
+  // https://www.microfocus.com/documentation/silk-test/200/en/silktestworkbench-help-en/SILKTEST-21EEFF3F-DIFFERENCEBETWEENTEXTCONTENTSINNERTEXTINNERHTML-REF.html
+};
+
 document.getElementById("myButton-1").addEventListener("click", callMe1);
 document.getElementById("myButton-2").addEventListener("click", callMe2);
 document.getElementById("myButton-3").addEventListener("click", callMe3);
 document.getElementById("myButton-4").addEventListener("click", callMe4);
+document.getElementById("myButton-5").addEventListener("click", callMe5);
