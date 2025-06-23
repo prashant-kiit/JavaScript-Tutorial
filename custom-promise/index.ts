@@ -6,19 +6,26 @@ type TReject = (value: string) => void;
 type TExecutor = (resolve: TResolve, reject: TReject) => void
 
 class MyPromise {
-    private _executor: TExecutor | null = null;
-    private _resolve: TResolve | null = null;
-    private _reject: TReject | null = null;
+    private _executor: TExecutor = (resolve, reject) => {
+        throw new Error("Executor miising in Promise");
+    };
+    private _resolve: TResolve = (value) => {
+        throw new Error("Unhandled Promise Resolution")
+    };
+    private _reject: TReject = (reason) => {
+        throw new Error("Unhandled Promise Rejection")
+    };
 
     constructor(executor: TExecutor) {
         this._executor = executor;
     }
-
+    
     public then(resolve: TResolve) {
         this._resolve = resolve;
+        // this.start();
         return this;
     }
-
+    
     public catch(reject: TReject) {
         this._reject = reject;
         this.start();
@@ -26,13 +33,12 @@ class MyPromise {
     }
 
     private start() {
-        const start = this._executor as TExecutor;
-        start(this._resolve as TResolve, this._reject as TReject);
+        this._executor(this._resolve as TResolve, this._reject as TReject);
     }
 }
 
 function hello() {
-    // const flag = false;
+    const flag = true;
     // return new Promise((resolve, reject) => {
     //     if (flag)
     //         resolve(1);
@@ -41,9 +47,9 @@ function hello() {
     // });
     return new MyPromise((resolve, reject) => {
         console.log("Executor running");
-        // if (flag)
+        if (flag)
             resolve(1)
-        // else
+        else
             reject("flag is false")
     })
 }

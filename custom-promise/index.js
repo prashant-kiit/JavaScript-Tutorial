@@ -1,28 +1,34 @@
 console.log("main");
 var MyPromise = /** @class */ (function () {
     function MyPromise(executor) {
-        this._executor = null;
-        this._resolve = null;
-        this._reject = null;
+        this._executor = function (resolve, reject) {
+            throw new Error("Executor miising in Promise");
+        };
+        this._resolve = function (value) {
+            throw new Error("Unhandled Promise Resolution");
+        };
+        this._reject = function (reason) {
+            throw new Error("Unhandled Promise Rejection");
+        };
         this._executor = executor;
+        this.start();
     }
     MyPromise.prototype.then = function (resolve) {
         this._resolve = resolve;
+        // this.start();
         return this;
     };
     MyPromise.prototype.catch = function (reject) {
         this._reject = reject;
-        this.start();
         return this;
     };
     MyPromise.prototype.start = function () {
-        var start = this._executor;
-        start(this._resolve, this._reject);
+        this._executor(this._resolve, this._reject);
     };
     return MyPromise;
 }());
 function hello() {
-    // const flag = false;
+    var flag = true;
     // return new Promise((resolve, reject) => {
     //     if (flag)
     //         resolve(1);
@@ -31,10 +37,10 @@ function hello() {
     // });
     return new MyPromise(function (resolve, reject) {
         console.log("Executor running");
-        // if (flag)
-        resolve(1);
-        // else
-        reject("flag is false");
+        if (flag)
+            resolve(1);
+        else
+            reject("flag is false");
     });
 }
 hello()
