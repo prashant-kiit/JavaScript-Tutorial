@@ -10,7 +10,6 @@ function hydrate() {
             if (handler.source === "EFFECT") return;
             const element = document.getElementById(handler.source);
             element.addEventListener(handler.event, (event) => {
-                console.log("clicking")
                 STATE.updateState(handler);
             });
         }
