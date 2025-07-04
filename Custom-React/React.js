@@ -7,12 +7,11 @@ export function render(root, App) {
 function hydrate() {
     for (const STATE of STATES) {
         for (const handler of STATE.handlers) {
+            if (handler.source === "EFFECT") return;
             const element = document.getElementById(handler.source);
-            console.log(element)
             element.addEventListener(handler.event, (event) => {
                 console.log("clicking")
                 STATE.updateState(handler);
-                console.log(STATE);
             });
         }
 
@@ -20,9 +19,14 @@ function hydrate() {
 }
 
 const STATES = []
+const EFFECTS = []
+let currentEffectTags = []
 
 function registerForHydration(STATE) {
     STATES.push(STATE);
+}
+function registerEffect(EFFECT) {
+    EFFECTS.push(EFFECT);
 }
 
 export class STATE {
@@ -32,17 +36,38 @@ export class STATE {
 
     constructor(target, defaultValue) {
         this.target = target;
-        this.name = name;
         this.state = defaultValue;
         registerForHydration(this);
     }
 
-    setState(source, event, handler) {
-        this.handlers.push({
-            source: source,
-            event: event,
-            callback: handler.bind(this)
-        });
+    setState(...args) {
+        if (args.length === 3) {
+            const source = args[0];
+            const event = args[1];
+            const handler = args[2];
+            this.handlers.push({
+                source: source,
+                event: event,
+                callback: handler.bind(this)
+            });
+        }
+        if (args.length === 1) {
+            const handler = args[0]
+            currentEffectTags.forEach((currentEffectTag) => {
+                STATES.map((STATE) => {
+                    if (STATE.target === currentEffectTag) {
+                        for (const previousHandler of STATE.handlers) {
+                            this.handlers.push({
+                                source: previousHandler.source,
+                                event: previousHandler.event,
+                                callback: handler.bind(this)
+                            });
+                        }
+                    }
+                })
+
+            })
+        }
     }
 
     getState() {
@@ -53,7 +78,24 @@ export class STATE {
         const newState = handler.callback(this.state);
         this.state = newState;
         const targetElement = document.getElementById(this.target);
-        console.log(targetElement)
         targetElement.innerHTML = newState;
+        for (const EFFECT of EFFECTS) {
+            if (EFFECT.tags.includes(this.target)) {
+                EFFECT.handler();
+            }
+        }
+    }
+}
+
+export class EFFECT {
+    handler = null;
+    tags = [];
+
+    constructor(handler, tags) {
+        this.handler = handler.bind(this);
+        this.tags = tags;
+        currentEffectTags = tags;
+        registerEffect(this);
+        handler();
     }
 }
